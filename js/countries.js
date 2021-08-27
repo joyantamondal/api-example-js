@@ -12,15 +12,28 @@ const displayCountries=countries=>{
     */
    const countriesDiv = document.getElementById('countries');
    countries.forEach(country => {
-       const div = document.createElement('div');
-       const h3 = document.createElement('h3');
-       div.classList.add('country');
-       h3.innerText= `Country: ${country.name}`;
-       div.appendChild(h3);
-       const p = document.createElement('p');
-       p.innerText = `Capital: ${country.capital}`;
-       div.appendChild(p);
-       countriesDiv.appendChild(div);
-       
+        const div = document.createElement('div');
+        div.innerHTML= `
+        <img src="${country.flag}">
+        <h3>${country.name}</h3>
+        <p>${country.capital}</p>
+        <button onclick="loadCountryByName('${country.name}')">Details</button>`;
+        div.classList.add('country');
+        countriesDiv.appendChild(div);
    });
+}
+const loadCountryByName=name =>{
+    const url = `//restcountries.eu/rest/v2/name/${name}`;
+    fetch(url)
+    .then(res=>res.json())
+    .then(data=>displayCountryDetail(data[0]))
+};
+const displayCountryDetail=country=>{
+const countryDetail = document.getElementById('country-detail');
+countryDetail.innerHTML= 
+`
+    <h5>Country Name: ${country.name}</h5>
+    <h5>Population: ${country.population}</h5>
+     
+`;
 }

@@ -4,4 +4,13 @@ padding: 10px;
 margin: 15px;
 border-radius: 10px;
 box-shadow: grey red royalblue;
+height: 200px;
+width: 350px;
+}
+#countries{
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+}
+img{
+    width: 30%;
 }
