@@ -1,40 +1,29 @@
-// error message 
-document.getElementById('error-message').style.display='none';
-const searchFood = () =>{
+const searchFood = async() =>{
     const searchField = document.getElementById('search-field');
     const searchText = searchField.value;
     console.log(searchText);
     // clear data
     searchField.value='';
-    // error message 
-    document.getElementById('error-message').style.display='block';
     if(searchText==''){
         //please write something to display
     }
     else{
         const url = `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchText}`;
-        // load data
-        fetch(url)
-        .then(res=>res.json())
-        .then(data=>displaySearchResult(data.meals))
-        .catch(error=> displayError(error))
+        // load data fetch other system
+        const res = await fetch(url);
+         const data =await res.json();
+         displaySearchResult(data.meals)
     }
 }
-const displayError= error=>{
-    // error message 
-document.getElementById('error-message').style.display='block';
-}
 const displaySearchResult=meals=>{
-    document.getElementById('error-message').style.display='none';
     const searchResult = document.getElementById('search-result');
     searchResult.textContent= '';
     if(meals.length==0){
         //search result not found
-        document.getElementById('error-message').style.display='block';
 
     }
     meals.forEach(meal=> {
-        
+        console.log(meal)
         const div = document.createElement('div');
         div.classList.add('col');
         div.innerHTML = `
@@ -49,16 +38,20 @@ const displaySearchResult=meals=>{
         searchResult.appendChild(div);
     });
 }
-const loadMealDetail = mealId =>{
+const loadMealDetail = async mealId =>{
     const url = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${mealId}`;
-    fetch(url)
-    .then(res=>res.json())
-    .then(data=>displayMealDetail(data.meals[0]))
+    const res = await fetch(url);
+    const data = await res.json();
+    displayMealDetail(data.meals[0])
+    // fetch(url)
+    // .then(res=>res.json())
+    // .then(data=>displayMealDetail(data.meals[0]))
 
 }
 const displayMealDetail = meal =>{
     console.log(meal);
     const mealDetails = document.getElementById('meal-details');
+    mealDetails.textContent = '';
     const div = document.createElement('div');
     div.classList.add('card');
     div.innerHTML = `
@@ -71,5 +64,3 @@ const displayMealDetail = meal =>{
     `;
     mealDetails.appendChild(div);
 }
-const bondCode=` I am Fake James bond . My new code is: 00${7+1+2}`
-console.log(bondCode)
